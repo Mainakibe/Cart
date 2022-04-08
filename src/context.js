@@ -6,10 +6,14 @@ import reducer from './reducer';
 const url = 'https://course-api.com/react-useReducer-cart-project';
 const AppContext = React.createContext();
 
+const defaultState={
+  loading:false,
+}
 const AppProvider = ({ children }) => {
-  const [cart, setCart] = useState(cartItems);
-  const [total, SetTotal] = useState();
-  const [loading, setLoading] = useState(true);
+  // const [cart, setCart] = useState(cartItems);
+  // const [total, SetTotal] = useState();
+  // const [loading, setLoading] = useState(true);
+  // const [state, dispatch] = useReducer(reducer, defaultState);
 
   // const removeItem=()=>{}
   const increaseItems = () => {
