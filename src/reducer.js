@@ -19,7 +19,10 @@ const reducer = (state, action) => {
       };
 
     case 'TOTALS':
-        
+        const {total,amount}=state.cart.reduce(
+            
+        )
+
     case 'LOADING':
       return {
         ...state,
