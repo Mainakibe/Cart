@@ -8,26 +8,54 @@ const AppContext = React.createContext();
 
 const defaultState = {
   loading: false,
-  cart: [],
+  cart: cartItems,
   total: 0,
   amount: 0,
 };
 const AppProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, defaultState);
 
-  // const removeItem=()=>{}
-  const increaseItems = () => {};
-  const decreaseItems = () => {};
-  const removeItems = () => {};
-  const clearItems = () => {};
+  const increaseItems = (id) => {
+    dispatch({ type: 'INCREASE', payload: id });
+  };
+  const decreaseItems = (id) => {
+    dispatch({ type: 'DECREASE', payload: id });
+  };
+  const removeItem = (id) => {
+    dispatch({ type: 'REMOVE_FROM_CART', payload: id });
+  };
+  const clearItems = () => {
+    dispatch({ type: 'CLEAR_CART' });
+  };
+
+  useEffect(() => {
+    dispatch({ type: 'ITEM_TOTALS' });
+  }, [state.cart]);
+
+  const getData = async () => {
+    dispatch({ type: 'LOADING' });
+    const res = await fetch(url);
+    const cart = await res.json();
+
+    dispatch({ type: 'DISPLAY_ITEMS', payload: cart });
+  };
+  const toggleAmount = (id, type) => {
+    dispatch({ type: 'TOGGLE_CART', payload: { id, type } });
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
+
   return (
     <AppContext.Provider
       value={{
-        state,
+        ...state,
         increaseItems,
         decreaseItems,
-        removeItems,
+        removeItem,
         clearItems,
+        toggleAmount,
       }}
     >
       {children}
